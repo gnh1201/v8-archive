@@ -264,7 +264,7 @@ class Thumbnail
     }
     
     /**
-     * If a given video is a non-image supported to generate thumbnail
+     * If a given video is a video supported to generate thumbnail
      *
      * @param $format
      *
