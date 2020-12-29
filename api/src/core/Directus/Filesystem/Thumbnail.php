@@ -30,6 +30,22 @@ class Thumbnail
         'psd',
         'tif',
         'tiff',
+    ];
+    
+    /**
+     * List of video supported extension/formats
+     *
+     * @var array
+     */
+    private static $videoFormatsSupported = [
+        'avi',
+        'mp4',
+        'mov',
+        'wmv',
+        'mpeg',
+        'flv',
+        'webm',
+        'mkv',
         'swf'
     ];
 
@@ -38,6 +54,9 @@ class Thumbnail
         if (static::isNonImageFormatSupported($format)) {
             $format = static::defaultFormat();
             $targetContent = static::createImageFromNonImage($targetContent, $format);
+        } else if (static::isVideoFormatSupported($format)) {
+            $format = static::defaultFormat();
+            $targetContent = static::createImageFromVideo($targetContent, $format, $thumbnailSize, $cropEnabled);
         }
 
         if (!in_array(strtolower($format), static::$imageFormatsSupported)) {
@@ -135,6 +154,32 @@ class Thumbnail
         
         return $image->getImageBlob();
     }
+    
+
+    /**
+     * Create a image from a video file content. (Ex. AVI, MOV, or MP4)
+     *
+     * @param $content
+     * @param string $format
+     *
+     * @return bool|string
+     */
+    public static function createImageFromVideo($content, $format, $thumbnailSize, $cropEnabled)
+    {
+        $tmpfname = tempnam(sys_get_temp_dir(), 'FOO') . ".png";
+
+        $ffmpeg = FFMpeg\FFMpeg::create();
+        $video = $ffmpeg->open($content);
+        $frame = $video->frame(FFMpeg\Coordinate\TimeCode::fromSeconds(0));
+        $frame->save($tmpfname);
+
+        if (file_exists($tmpfname)) {
+            $targetContent = imagecreatefrompng($tmpfname);
+            return static::generateThumbnail($targetContent, 'jpeg', $thumbnailSize, $cropEnabled);
+        } else {
+            return false;
+        }
+    }
 
     public static function writeImage($extension, $path, $img, $quality)
     {
@@ -215,5 +260,17 @@ class Thumbnail
     public static function isNonImageFormatSupported($format)
     {
         return in_array(strtolower($format), static::$nonImageFormatsSupported);
+    }
+    
+    /**
+     * If a given video is a non-image supported to generate thumbnail
+     *
+     * @param $format
+     *
+     * @return bool
+     */
+    public static function isVideoFormatSupported($format)
+    {
+        return in_array(strtolower($format), static::$videoFormatsSupported);
     }
 }
