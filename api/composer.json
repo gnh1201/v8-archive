@@ -54,7 +54,8 @@
     "zendframework/zend-db": "dev-master",
     "directus/oauth2-okta": "dev-master",
     "directus/proxy-detection": "dev-master",
-    "directus/rate-limit": "dev-master"
+    "directus/rate-limit": "dev-master",
+    "php-ffmpeg/php-ffmpeg": "^0.17.0"
   },
   "suggest": {
     "paragonie/random_compat": "Generates cryptographically more secure pseudo-random bytes",

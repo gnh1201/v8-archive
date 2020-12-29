@@ -16,7 +16,7 @@ class Thumbnail
         'jpeg',
         'gif',
         'png',
-	    'webp'
+	'webp'
     ];
 
     /**
@@ -30,6 +30,7 @@ class Thumbnail
         'psd',
         'tif',
         'tiff',
+        'swf'
     ];
 
     public static function generateThumbnail($targetContent, $format, $thumbnailSize, $cropEnabled)
