@@ -174,7 +174,7 @@ class Thumbnail
         $frame->save($tmpfname);
 
         if (file_exists($tmpfname)) {
-            $targetContent = imagecreatefrompng($tmpfname);
+            $targetContent = base64_encode(imagecreatefrompng($tmpfname));
             return static::generateThumbnail($targetContent, 'jpeg', $thumbnailSize, $cropEnabled);
         } else {
             return false;
