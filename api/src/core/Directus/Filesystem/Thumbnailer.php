@@ -146,11 +146,19 @@ class Thumbnailer
      */
     public function load()
     {
-        $content = $this->filesystem->read($this->fileName);
-        $ext = pathinfo($this->fileName, PATHINFO_EXTENSION);
-        if (Thumbnail::isNonImageFormatSupported($ext)) {
-            $content = Thumbnail::createImageFromNonImage($content);
+        $filename = $this->fileName
+        $content = "";
+
+        if (Thumbnail::isVideoFormatSupported($ext)) {
+            $content = Thumbnail::createImageFromVideo($filename);
+        } else {
+            $content = $this->filesystem->read($filename);
+            $ext = pathinfo($this->fileName, PATHINFO_EXTENSION);
+            if (Thumbnail::isNonImageFormatSupported($ext)) {
+                $content = Thumbnail::createImageFromNonImage($content);
+            }
         }
+
         return Image::make($content);
     }
 
