@@ -16,7 +16,7 @@ class Thumbnail
         'jpeg',
         'gif',
         'png',
-	'webp'
+        'webp'
     ];
 
     /**
@@ -40,9 +40,10 @@ class Thumbnail
     private static $videoFormatsSupported = [
         'avi',
         'mp4',
+        'mpg',
+        'mpeg',
         'mov',
         'wmv',
-        'mpeg',
         'flv',
         'webm',
         'mkv',
