@@ -146,7 +146,7 @@ class Thumbnailer
      */
     public function load()
     {
-        $filename = $this->fileName
+        $filename = $this->fileName;
         $content = "";
 
         if (Thumbnail::isVideoFormatSupported($ext)) {
